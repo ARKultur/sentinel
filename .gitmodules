@@ -1,6 +1,7 @@
 [submodule "naboo"]
 	path = naboo
-	url = https://github.com/aRKultur/naboo
+	url = https://github.com/arKultur/naboo
 [submodule "theed"]
 	path = theed
 	url = https://github.com/arKultur/theed
+
