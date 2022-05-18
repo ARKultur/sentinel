@@ -33,6 +33,8 @@ services:
       - ./server/api/.env
     environment:
       - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_DB=naboo_dev
+      - POSTGRES_PASSWORD=development
     networks:
       - internal
     volumes:
@@ -40,11 +42,13 @@ services:
 
   api:
     env_file:
-      - naboo/.env
+      - .env-api
     build:
       context: ./naboo
     volumes:
       - .:/app
+    environment:
+      - DATABASE_URL=postgres://postgres:development@db/naboo_dev
     ports:
       - "8080:8080"
     depends_on:
