@@ -1,5 +1,20 @@
 version: '3.9'
 services:
+
+  endlessh:
+    image: lscr.io/linuxserver/endlessh:latest
+    container_name: endlessh
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - MAXLINES=64
+      - MAXCLIENTS=8196
+      - LOGFILE=false
+    ports:
+      - 22:2222
+    restart: unless-stopped
+
   certbot:
     image: certbot/certbot
     networks:
@@ -8,6 +23,7 @@ services:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    restart: unless-stopped
 
   nginx:
     image: nginx:alpine
@@ -24,6 +40,7 @@ services:
       - api
       - client
       - certbot
+    restart: unless-stopped
 
   db:
     image: postgres
@@ -39,6 +56,7 @@ services:
       - internal
     volumes:
       - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
 
   api:
     env_file:
@@ -55,6 +73,7 @@ services:
       - db
     networks:
       - internal
+    restart: unless-stopped
 
   client:
     build:
@@ -69,6 +88,7 @@ services:
       - api
     networks:
       - internal
+    restart: unless-stopped
 
 networks:
   internal:
