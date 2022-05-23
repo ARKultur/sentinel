@@ -5,10 +5,10 @@ if ! [ -x "$(command -v docker-compose)" ]; then
   exit 1
 fi
 
-domains=(zenith-preprod.juniortaker.com)
+domains=(arkultur.creative-rift.com)
 rsa_key_size=4096
 data_path="./data/certbot"
-email="contact@juniortaker.com" # Adding a valid address is strongly recommended
+email="contact@creative-rift.com" # Adding a valid address is strongly recommended
 staging=0 # Set to 1 if you're testing your setup to avoid hitting request limits
 
 if [ -d "$data_path" ]; then
