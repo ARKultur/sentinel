@@ -38,7 +38,6 @@ services:
       - internal
     depends_on:
       - api
-      - client
       - certbot
     restart: unless-stopped
 
@@ -67,18 +66,6 @@ services:
       - "8080:8080"
     depends_on:
       - db
-    networks:
-      - internal
-    restart: unless-stopped
-
-  client:
-    build:
-      context: ./theed
-    ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=production
-      - CHOKIDAR_USEPOLLING=true
     networks:
       - internal
     restart: unless-stopped
