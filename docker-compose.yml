@@ -7,7 +7,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Europe/London
+      - TZ=Europe/Paris
       - MAXLINES=64
       - MAXCLIENTS=8196
       - LOGFILE=false
@@ -46,8 +46,6 @@ services:
     image: postgres
     ports:
       - "5432:5432"
-    env_file:
-      - ./server/api/.env
     environment:
       - PGDATA=/var/lib/postgresql/data/pgdata
     env_file:
