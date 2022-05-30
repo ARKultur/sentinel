@@ -1,20 +1,5 @@
 version: '3.9'
 services:
-
-  endlessh:
-    image: lscr.io/linuxserver/endlessh:latest
-    container_name: endlessh
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Paris
-      - MAXLINES=64
-      - MAXCLIENTS=8196
-      - LOGFILE=false
-    ports:
-      - 22:2222
-    restart: unless-stopped
-
   certbot:
     image: certbot/certbot
     networks:
