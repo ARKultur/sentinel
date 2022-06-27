@@ -40,11 +40,18 @@ services:
       - pgdata:/var/lib/postgresql/data
     restart: unless-stopped
 
+  web:
+    image: bogdzn/theed
+    ports:
+      - "3000:3000"
+    networks:
+      - internal
+    restart: unless-stopped
+
   api:
+    image: bogdzn/naboo
     env_file:
       - .env-api
-    build:
-      context: ./naboo
     volumes:
       - .:/app
     ports:
