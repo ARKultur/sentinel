@@ -42,6 +42,7 @@ services:
 
   web:
     image: bogdzn/theed
+    container_name: web
     ports:
       - "3000:3000"
     networks:
@@ -50,6 +51,7 @@ services:
 
   api:
     image: bogdzn/naboo
+    container_name: api
     env_file:
       - .env-api
     volumes:
