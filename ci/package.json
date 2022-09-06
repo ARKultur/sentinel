@@ -1,0 +1,16 @@
+{
+  "name": "ci",
+  "version": "1.0.0",
+  "description": "Ci for ARKultur Project",
+  "main": "ci.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ci.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1",
+    "process": "^0.11.10"
+  }
+}
