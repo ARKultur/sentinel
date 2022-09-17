@@ -8,14 +8,17 @@ app.use(express.json())
 
 function prefix(name)
 {
-    return "[" + name + "]";
+    return "[" + name + "] ";
 }
 
 function isWorkflowEnd(req, name)
 {
     const status = req.body.workflow_run.status;
     const conclusion = req.body.workflow_run.conclusion;
+    const actionName = req.body.workflow_run.name;
 
+    if (actionName !== "Integration")
+        return false;
     if (status === "queued")
         console.log(prefix(name) + "Workflow started update incoming...");
     else if (status === "completed")
@@ -40,7 +43,7 @@ function canDeploy(req, name, callback)
     {
         const branch = req.body.workflow_run.head_branch;
         if (branch === Process.env.CI_BRANCH) {
-            console.log(prefix(name) + "Starting deploying with brach " + branch + "...");
+            console.log(prefix(name) + "Starting deploying with branch " + branch + "...");
             callback();
             return true;
         }
@@ -50,8 +53,17 @@ function canDeploy(req, name, callback)
 
 app.post('/payload', (req, res) => {
     const name = req.body.repository.name;
+    const port = 8080;
 
-    canDeploy(req, name, () => { console.log("Nothing to deploy it's just a test!") });
+    canDeploy(req, name, () => { console.log("Nothing to deploy it's just a test!")
+        exec("./ci/script/deploy.sh naboo dev " + port, (error, stdout, stderr) => {
+            if (error)
+                console.log(`error: ${error.message}`);
+            else if (stderr)
+                console.log(`stderr: ${stderr}`);
+            else
+                console.log(`stdout: ${stdout}`);
+        });});
     res.status(200).send();
 });
 
@@ -69,10 +81,12 @@ app.post('/ci_theed', (req, res) => {
 
 app.post('/ci_naboo', (req, res) => {
     const name = req.body.repository.name;
+    const branch = req.body.workflow_run.head_branch;
+    const port = 8080;
 
     if (canDeploy(req, name))
     {
-        exec("ls -la", (error, stdout, stderr) => {
+        exec("./ci/script/deploy.sh " + name + " " + branch + " " + port, (error, stdout, stderr) => {
             if (error)
                 console.log(`error: ${error.message}`);
             else if (stderr)
@@ -85,9 +99,9 @@ app.post('/ci_naboo', (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log(`Now listening on port ${port}`);
+    console.log(prefix("ARKultur") + "Now listening on port ${port}");
     if (!Process.env.CI_BRANCH)
-        console.error("[ARKultur] No target branch found!");
+        console.error(prefix("ARKultur") + "No target branch found!");
     else
-        console.error("[ARKultur] Target branch found! (" + Process.env.CI_BRANCH + ")");
+        console.error(prefix("ARKultur") + "Target branch found! (" + Process.env.CI_BRANCH + ")");
 });

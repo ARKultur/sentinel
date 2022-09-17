@@ -42,7 +42,7 @@ services:
 
   web:
     image: bogdzn/theed
-    container_name: web
+    container_name: theed
     ports:
       - "3000:3000"
     networks:
@@ -50,8 +50,8 @@ services:
     restart: unless-stopped
 
   api:
-    image: bogdzn/naboo
-    container_name: api
+    image: arkulturtest/naboo:dev
+    container_name: naboo
     env_file:
       - .env-api
     volumes:
