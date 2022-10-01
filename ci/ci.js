@@ -17,7 +17,7 @@ function isWorkflowEnd(req, name)
     const conclusion = req.body.workflow_run.conclusion;
     const actionName = req.body.workflow_run.name;
 
-    if (actionName !== "Integration")
+    if (actionName !== "Docker")
         return false;
     if (status === "queued")
         console.log(prefix(name) + "Workflow started update incoming...");
@@ -99,7 +99,7 @@ app.post('/ci_naboo', (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log(prefix("ARKultur") + "Now listening on port ${port}");
+    console.log(prefix("ARKultur") + "Now listening on port " + port);
     if (!Process.env.CI_BRANCH)
         console.error(prefix("ARKultur") + "No target branch found!");
     else
