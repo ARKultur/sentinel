@@ -67,26 +67,13 @@ app.post('/payload', (req, res) => {
     res.status(200).send();
 });
 
-app.post('/ci_theed', (req, res) => {
-    const name = req.body.repository.name;
-
-    if (canDeploy(req, name))
-    {
-        canDeploy(req, name, () => {
-            console.log("No image provided")
-        });
-    }
-    res.status(200).send();
-})
-
-app.post('/ci_naboo', (req, res) => {
+app.post('/ci_deploy', (req, res) => {
     const name = req.body.repository.name;
     const branch = req.body.workflow_run.head_branch;
-    const port = 8080;
 
     if (canDeploy(req, name))
     {
-        exec("./ci/script/deploy.sh " + name + " " + branch + " " + port, (error, stdout, stderr) => {
+        exec("./ci/script/deploy.sh " + name + " " + branch, (error, stdout, stderr) => {
             if (error)
                 console.log(`error: ${error.message}`);
             else if (stderr)

@@ -1,0 +1,24 @@
+{
+	email contact@creative-rift.com
+}
+
+arkultur.creative-rift.com {
+    route /ci_deploy {
+        reverse_proxy localhost:4567
+    }
+
+	route /api/* {
+		reverse_proxy api:8080
+	}
+
+	route /pgadmin4 {
+		reverse_proxy pgadmin:8200 {
+			header_up X-Script-Name "/pgadmin4"
+			header_up Host {upstream_hostport}
+		}
+	}
+
+	route /* {
+		reverse_proxy web:3000
+	}
+}
