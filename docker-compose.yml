@@ -26,22 +26,8 @@ services:
       - pgdata:/var/lib/postgresql/data
     restart: unless-stopped
 
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin4
-    restart: unless-stopped
-    ports:
-      - "5050:80"
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin
-      PGADMIN_DEFAULT_PASSWORD: admin
-    volumes:
-      - pgadmin-data:/var/lib/pgadmin
-    networks:
-      - internal
-
   web:
-    image: bogdzn/theed
+    image: bogdzn/theed:canon
     container_name: theed
     ports:
       - "3000:3000"
@@ -50,7 +36,7 @@ services:
     restart: unless-stopped
 
   api:
-    image: bogdzn/naboo:canon
+    image: arkulturtest/naboo
     container_name: naboo
     env_file:
       - .env-api
