@@ -57,4 +57,3 @@ volumes:
   pgdata:
   caddy_data:
   pgadmin-data:
-
