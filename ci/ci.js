@@ -68,7 +68,13 @@ app.post('/payload', (req, res) => {
 });
 
 app.post('/ci_deploy', (req, res) => {
+    console.info(prefix("ARKultur") + "Endpoint: /ci_deploy targeted");
     const name = req.body.repository.name;
+    if (!req.body.workflow_run) {
+        console.info(prefix("ARKultur") + "Not a workflow event");
+        res.status(200).send();
+        return;
+    }
     const branch = req.body.workflow_run.head_branch;
 
     if (canDeploy(req, name))
@@ -83,6 +89,11 @@ app.post('/ci_deploy', (req, res) => {
         });
     }
     res.status(200).send();
+})
+
+app.get('/ci_deploy/ping', (req, res) => {
+    console.info(prefix("ARKultur") + "Endpoint: /ci_deploy/ping targeted");
+    res.status(200).send({message: "Pong"});
 })
 
 app.listen(port, () => {

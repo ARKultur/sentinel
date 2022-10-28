@@ -10,6 +10,9 @@ services:
     volumes:
       - ./configs/Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
+    environment:
+      - SITE_ADDRESS=${SITE_ADDRESS}
+      - SITE_DOMAIN=${SITE_DOMAIN}
     restart: unless-stopped
 
   db:
@@ -27,7 +30,7 @@ services:
     restart: unless-stopped
 
   web:
-    image: bogdzn/theed:canon
+    image: bogdzn/theed:${CI_BRANCH}
     container_name: theed
     ports:
       - "3000:3000"
@@ -36,7 +39,7 @@ services:
     restart: unless-stopped
 
   api:
-    image: bogdzn/naboo:canon
+    image: bogdzn/naboo:${CI_BRANCH}
     container_name: naboo
     env_file:
       - .env-api
