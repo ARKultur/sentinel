@@ -5,7 +5,7 @@
 #$3 -> Port for the machine and the image
 
 PREFIX="[ARKultur] "
-REPO="arkulturtest"
+REPO="bogdzn"
 
 if [ "$( docker container inspect -f '{{.State.Running}}' $1 )" == "true" ];
 then

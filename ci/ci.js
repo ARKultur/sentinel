@@ -37,14 +37,13 @@ function isWorkflowEnd(req, name)
     return false;
 }
 
-function canDeploy(req, name, callback)
+function canDeploy(req, name)
 {
     if (isWorkflowEnd(req, name))
     {
         const branch = req.body.workflow_run.head_branch;
         if (branch === Process.env.CI_BRANCH) {
             console.log(prefix(name) + "Starting deploying with branch " + branch + "...");
-            callback();
             return true;
         }
     }
@@ -55,7 +54,7 @@ app.post('/payload', (req, res) => {
     const name = req.body.repository.name;
     const port = 8080;
 
-    canDeploy(req, name, () => { console.log("Nothing to deploy it's just a test!")
+    if (canDeploy(req, name)) {
         exec("./ci/script/deploy.sh naboo dev " + port, (error, stdout, stderr) => {
             if (error)
                 console.log(`error: ${error.message}`);
@@ -63,9 +62,10 @@ app.post('/payload', (req, res) => {
                 console.log(`stderr: ${stderr}`);
             else
                 console.log(`stdout: ${stdout}`);
-        });});
+        });
+    }
     res.status(200).send();
-});
+})
 
 app.post('/ci_deploy', (req, res) => {
     console.info(prefix("ARKultur") + "Endpoint: /ci_deploy targeted");
