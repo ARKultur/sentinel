@@ -30,8 +30,8 @@ services:
     restart: unless-stopped
 
   web:
-    image: bogdzn/theed:${CI_BRANCH}
-    container_name: theed
+    image: arkulturtest/sidious:${CI_BRANCH}
+    container_name: sidious
     ports:
       - "3000:3000"
     networks:
