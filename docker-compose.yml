@@ -30,8 +30,8 @@ services:
     restart: unless-stopped
 
   web:
-    image: bogdzn/theed:${CI_BRANCH}
-    container_name: theed
+    image: arkulturtest/sidious:${CI_BRANCH}
+    container_name: sidious
     ports:
       - "3000:3000"
     networks:
@@ -39,14 +39,13 @@ services:
     restart: unless-stopped
 
   api:
-    image: bogdzn/naboo:${CI_BRANCH}
+    image: arkulturtest/naboo:${CI_BRANCH}
     container_name: naboo
     env_file:
       - .env-api
-    volumes:
-      - ./configs/api:/app
     ports:
       - "8080:8080"
+      - "4000:4000"
     depends_on:
       - db
     networks:

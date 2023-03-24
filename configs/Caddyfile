@@ -8,14 +8,7 @@
 	}
 
 	route /api/* {
-		reverse_proxy api:8080
-	}
-
-	route /pgadmin4 {
-		reverse_proxy pgadmin:8200 {
-			header_up X-Script-Name "/pgadmin4"
-			header_up Host {upstream_hostport}
-		}
+		reverse_proxy api:4000
 	}
 
 	route /* {
